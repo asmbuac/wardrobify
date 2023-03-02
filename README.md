@@ -10,7 +10,7 @@ Team:
 ## Shoes microservice
 
 Models:
-- Shoes:
+- Shoe:
   - Manufacturer
   - Model name
   - Color
