@@ -27,7 +27,7 @@ class Shoe(models.Model):
     )
 
     def __str__(self):
-        return f"{self.manufacturer} - {color} {model_name}"
+        return f"{self.manufacturer} - {self.color} {self.model_name}"
 
     def get_api_url(self):
         return reverse("api_show_shoe", kwargs={"id": self.id})
