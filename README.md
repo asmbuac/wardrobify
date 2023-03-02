@@ -3,7 +3,7 @@
 Team:
 
 * Person 1 - Which microservice?
-* Shayne - Shoes
+* Person 2 - Which microservice?
 
 ## Design
 
