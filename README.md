@@ -25,6 +25,7 @@ Models:
 RESTful API:
 - List shoes (GET) - /api/shoes/
 - Create a new shoes (POST) - /api/shoes/
+- Show shoe details (GET) - /api/shoes/<int:id>/
 - Delete a shoe (DELETE) - /api/shoes/<int:id>/
 
 Poller:

@@ -30,7 +30,7 @@ class Shoe(models.Model):
         return f"{self.manufacturer} - {self.color} {self.model_name}"
 
     def get_api_url(self):
-        return reverse("api_show_shoe", kwargs={"id": self.id})
+        return reverse("api_shoe", kwargs={"id": self.id})
 
     class Meta:
         ordering = ("manufacturer", "model_name", "color")
