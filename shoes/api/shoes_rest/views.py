@@ -25,7 +25,7 @@ class ShoeListEncoder(ModelEncoder):
     ]
 
     def get_extra_data(self, o):
-        return {"bin": o.bin}
+        return {"bin": o.bin.closet_name}
 
 
 class ShoeDetailEncoder(ModelEncoder):
@@ -35,6 +35,7 @@ class ShoeDetailEncoder(ModelEncoder):
         "model_name",
         "color",
         "picture_url",
+        "bin",
     ]
     encoders = {
         "bin": BinVODetailEncoder(),
@@ -78,7 +79,7 @@ def api_shoes(request, bin_vo_id=None):
 def api_shoe(request, pk):
     try:
         shoe = Shoe.objects.get(id=pk)
-    except shoe.DoesNotExist:
+    except Shoe.DoesNotExist:
         return JsonResponse(
             {"message": "Shoe does not exist. Maybe try a different id?"},
             status=404,
