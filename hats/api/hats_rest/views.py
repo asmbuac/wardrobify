@@ -6,11 +6,12 @@ from django.views.decorators.http import require_http_methods
 import json
 
 from common.json import ModelEncoder
-from .models import Hat
+from .models import Hat, LocationV0
 
 
-class HatEncoder(ModelEncoder):
-    model = Hat
+
+class LocationV0Encoder(ModelEncoder):
+    model = LocationV0
     properties = [
         "id",
         "closet_name",
@@ -19,6 +20,16 @@ class HatEncoder(ModelEncoder):
     ]
 
 
+class HatEncoder(ModelEncoder):
+    model = Hat
+    properties = [
+        "fabric",
+        "style_name",
+        "color",
+        "picture_url",
+        "location",
+    ]
+    encoders={"location": LocationV0Encoder()}
 
 @require_http_methods(["GET", "POST"])
 def api_hats(request):
@@ -60,15 +71,27 @@ def api_hats(request):
         )
     else:
         content = json.loads(request.body)
-        hat = Hat.objects.create(**content)
+
+        try:
+            location_href = content['location']
+            location =LocationV0.objects.get(import_href=location_href)
+            content["location"] = location
+        except LocationV0.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid location id. It does not exist!"},
+                status = 400,
+            )
+
+        hats = Hat.objects.create(**content)
         return JsonResponse(
-            hat,
+            hats,
             encoder=HatEncoder,
             safe=False,
         )
 
+
 @require_http_methods(["DELETE", "GET", "PUT"])
-def api_hat(request, pk_id=None):
+def api_hat(request, pk):
     """
     Single-object API for the Hat resource.
 
