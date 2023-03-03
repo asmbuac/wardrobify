@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 
 export default function ShoeForm() {
   const [bins, setBins] = useState([]);
-  const [manufacturer, setManufacturer] = useState('');
-  const [modelName, setModelName] = useState('');
-  const [color, setColor] = useState('');
-  const [pictureUrl, setPictureUrl] = useState('');
-  const [bin, setBin] = useState('');
+  const [manufacturer, setManufacturer] = useState("");
+  const [modelName, setModelName] = useState("");
+  const [color, setColor] = useState("");
+  const [pictureUrl, setPictureUrl] = useState("");
+  const [bin, setBin] = useState("");
 
   const handleManufacturerChange = (event) => {
     setManufacturer(event.target.value);
@@ -29,7 +29,7 @@ export default function ShoeForm() {
   }
 
   const fetchData = async () => {
-    const url = 'http://localhost:8100/api/bins/';
+    const url = "http://localhost:8100/api/bins/";
 
     try {
       const response = await fetch(url)
@@ -57,23 +57,23 @@ export default function ShoeForm() {
       bin,
     };
 
-    const url = `http://localhost:8080/api/shoes/`;
+    const url = "http://localhost:8080/api/shoes/";
     const fetchConfig = {
-      method: 'post',
+      method: "post",
       body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       }
     }
 
     const response = await fetch(url, fetchConfig);
     if (response.ok) {
       const newShoe = await response.json();
-      setManufacturer('');
-      setModelName('');
-      setColor('');
-      setPictureUrl('');
-      setBin('');
+      setManufacturer("");
+      setModelName("");
+      setColor("");
+      setPictureUrl("");
+      setBin("");
     }
   }
 

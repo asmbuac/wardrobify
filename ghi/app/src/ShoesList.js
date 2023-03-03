@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import DeleteButton from './DeleteButton';
+
 
 function ShoeColumn(props) {
   return (
@@ -11,19 +13,19 @@ function ShoeColumn(props) {
             <div className="card-body">
               <h5 className="card-title">{shoe.manufacturer}</h5>
               <h6 className="card-subtitle mb-2 text-muted">
-                {shoe.model_name}
+                {shoe.color} {shoe.model_name}
               </h6>
-              <p className="card-text">
-                {shoe.color}
+              <p className="card-text text-center">
+                <DeleteButton href={shoe.href} />
               </p>
             </div>
             <div className="card-footer">
-              {`${shoe.bin.closet_name} Bin #${shoe.bin.bin_number}`}
+              {shoe.bin.closet_name} Bin #{shoe.bin.bin_number}
             </div>
           </div>
         );
       })}
-    </div>
+    </div >
   );
 }
 
