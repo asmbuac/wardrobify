@@ -6,6 +6,7 @@ Team:
 * Shayne - Shoes
 
 ## Design
+<img src="/Microservice-Two-Shot-Diagram.png">
 
 ## Shoes microservice
 
