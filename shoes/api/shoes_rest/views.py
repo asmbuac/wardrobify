@@ -75,8 +75,11 @@ def api_shoes(request, bin_vo_id=None):
 
 @require_http_methods(["GET", "DELETE"])
 def api_shoe(request, id):
-    if request.method == "GET":
+    try:
         shoe = Shoe.objects.get(id=id)
+    except shoe.DoesNotExist:
+        return JsonResponse({"message": ""})
+    if request.method == "GET":
         return JsonResponse(
             shoe,
             encoder=ShoeDetailEncoder,
