@@ -48,7 +48,40 @@ def api_shoes(request, bin_vo_id=None):
             shoes = Shoe.objects.filter(bin=bin_vo_id)
         else:
             shoes = Shoe.objects.all()
-    return JsonResponse(
-        {"shoes": shoes},
-        encoder=ShoeListEncoder,
-    )
+        return JsonResponse(
+            {"shoes": shoes},
+            encoder=ShoeListEncoder,
+        )
+    else:
+        content = json.loads(request.body)
+
+        try:
+            bin_href = content["bin"]
+            bin = BinVO.objects.get(import_href=bin_href)
+            content["bin"] = bin
+        except BinVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid bin id. It does not exist!"},
+                status=400,
+            )
+
+        shoe = Shoe.objects.create(**content)
+        return JsonResponse(
+            shoe,
+            encoder=ShoeDetailEncoder,
+            safe=False,
+        )
+
+
+@require_http_methods(["GET", "DELETE"])
+def api_shoe(request, id):
+    if request.method == "GET":
+        shoe = Shoe.objects.get(id=id)
+        return JsonResponse(
+            shoe,
+            encoder=ShoeDetailEncoder,
+            safe=False,
+        )
+    else:
+        count, _ = Shoe.objects.filter(id=id).delete()
+        return JsonResponse({"deleted": count > 0})

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "django_crontab",
     "corsheaders",
     "shoes_rest.apps.ShoesApiConfig",
     "django.contrib.admin",
@@ -58,8 +59,13 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8100",
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+CRONJOBS = [
+    ("* * * * *", "poller.get_bins"),
+]
 
 DJWTO_MODE = "TWO-COOKIES"
 DJWTO_ACCESS_TOKEN_LIFETIME = None
