@@ -12,24 +12,6 @@ django.setup()
 # Import models from hats_rest, here.
 from hats_rest.models import LocationV0
 
-# from hats_rest.models import Something
-from hats_rest.models import LocationV0
-
-def get_Locations():
-    response = requests.get("http://wardrobe-api:8000/api/locations/")
-    content = json.loads(response.content)
-    print(content)
-    print(response)
-    for location in content ["locations"]:
-        LocationV0.objects.update_or_create(
-            import_href=location("href"),
-            defaults = {
-            "closer_name": location["closet_name"],
-            "section_number": location["section_number"],
-            "shelf_number": location["shelf_number"],
-
-            }
-        )
 
 # from hats_rest.models import Something
 def get_locations():
