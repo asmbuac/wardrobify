@@ -9,43 +9,53 @@ Team:
 
 ## Shoes microservice
 
-Models:
-- Shoe:
-  - Manufacturer
-  - Model name
-  - Color
-  - Picture url
-  - Bin (Foreign Key to BinVO)
-- BinVO: Same properties as Bin model + href
-  - href
+### Summary
+The Shoes microservice consists of two microservices: **api** and **poll**. Api is a Django application with a Django project, `shoes_project`, and a Django app, `shoes_rest`, where the latter handles create, read, and delete functionality for shoes (`Shoe` objects) that are assigned to a specific bin (`BinVO`) in a user's wardrobe. Poll is an application that contains a poller that gets `Bin` data from the wardrobe API every 60 seconds and creates or updates a `BinVO` object. I then used React to render a dynamic single page app using various components, such as `ShoesList`, `ShoeForm`, and `DeleteButton`, that allow the user to interact with the website and create, read, and delete shoes (`Shoe` objects) that are assigned to a specific bin (`BinVO`) in their wardrobe.
+
+### Outline
+##### Models:
+
+- [x] `Shoe`
+  - manufacturer
+  - model_name
+  - color
+  - picture_url
+  - bin (Foreign Key to BinVO)
+- [x] `BinVO` - Same properties as Bin model + import_href
+  - import_href
   - closet_name
   - bin_number
   - bin_size
 
-RESTful API:
-- List shoes (GET) - /api/shoes/
-- Create a new shoes (POST) - /api/shoes/
-- Show shoe details (GET) - /api/shoes/<int:id>/
-- Delete a shoe (DELETE) - /api/shoes/<int:id>/
+##### RESTful API:
 
-Poller:
-- One poller to to poll the Wardrobe API for Bin resources
-- Crontab:
-  - Install crontab into the requirements.txt for the shoes app and shoe's poller
-  - Add crontab logic in the shoes project settings
-- Create a get_bins function to poll for bin data from Wardrobe API
-  - Poll specifically from the list bin url path, and iterate thro
-  - Grab response's content and change from json to python
-  - Iterate through the bins and update or create a BinVO object from the Bin data
+| Method | URL | What it does | View function | Notes |
+| ------ | ------ | ------ | ------ | ------ |
+|   GET  |    `/api/shoes/`    |    List all shoes     | `api_shoes` |
+| GET | `/api/bins/<int:bin_vo_id>/shoes/` | List shoes in one bin | `api_shoes` | Use in the back-end to double check which shoes were added to which bin |
+|    POST    |   `/api/shoes/`     |    Create a new shoe    | `api_shoes` |
+| GET | `/api/shoes/<int:id>/` | Show shoe details | `api_shoe` |
+| DELETE | `/api/shoes/<int:id>/` | Delete a shoe | `api_shoe` |
 
-React:
+##### Poller:
+- One poller to poll the Wardrobe API for `Bin` resources every 60 seconds
+- Created a `get_bins` function that:
+  - Requests for and gets bin data from Wardrobe microservice and create or update a 
+  - Grabs the response's content and translates it from JSON to Python
+  - Iterates through the bins and updates or creates a `BinVO` object from the Bin data
+
+##### React:
 - Components:
-  - ListShoes
-    - ShoeDetails (can put on same JS file as ListShoes or a separate JS file)
-  - ShoeForm
-  - DeleteShoe (does this need to be a component? SAVE FOR LAST)
-    - Button with onClick and passing an arrow function that will return handleDelete
+  - `ShoesList` - Fetches the details of the all the shoes from the `Shoe` API, passes these details as props to the ShoeColumn component, and then renders the overall look of the "/shoes" page which creates  into cards through the ShoeColumn component
+    - Fetches data from the Shoe API to get a list of objects where each object correlates to a specific shoe, and then fetches the details for each shoe where the response is a Promise object that resolves to an  
+  - `ShoeColumn` - Utilizes a `shoeList` property passed down from `ShoesList`  that contains the data for each specific shoes and returns 3 columns containing cards that display a shoe and its details. Also uses the `DeleteButton` component as part of the card text.
+  - `ShoeForm` - Returns a form that allows users to create a new shoe
+  - `DeleteButton` - Renders a button that deletes a specific object––in this case, a specific shoe––when it is clicked
+
 - React Router
+  - Used `BrowserRoutes`, `Routes`, and `Route` from  `react-router-dom` to create paths for `ShoeList` and `ShoeForm` within the `App.js` file where:
+    - `ShoeList` is the index child route for shoes (i.e., "/shoes" => `ShoeList`)
+    - `ShoeForm` is a sibling route of `ShoeList`'s route ("/shoes/new" => `ShoeForm`)
 
 ## Hats microservice
 
