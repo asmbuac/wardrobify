@@ -59,7 +59,6 @@ def api_shoes(request, bin_vo_id=None):
         try:
             bin_href = content["bin"]
             bin = BinVO.objects.get(import_href=bin_href)
-            print(bin)
             content["bin"] = bin
         except BinVO.DoesNotExist:
             return JsonResponse(
