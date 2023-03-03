@@ -58,6 +58,7 @@ def api_shoes(request, bin_vo_id=None):
         try:
             bin_href = content["bin"]
             bin = BinVO.objects.get(import_href=bin_href)
+            print(bin)
             content["bin"] = bin
         except BinVO.DoesNotExist:
             return JsonResponse(
@@ -74,11 +75,14 @@ def api_shoes(request, bin_vo_id=None):
 
 
 @require_http_methods(["GET", "DELETE"])
-def api_shoe(request, id):
+def api_shoe(request, pk):
     try:
-        shoe = Shoe.objects.get(id=id)
+        shoe = Shoe.objects.get(id=pk)
     except shoe.DoesNotExist:
-        return JsonResponse({"message": ""})
+        return JsonResponse(
+            {"message": "Shoe does not exist. Maybe try a different id?"},
+            status=404,
+        )
     if request.method == "GET":
         return JsonResponse(
             shoe,
@@ -86,5 +90,5 @@ def api_shoe(request, id):
             safe=False,
         )
     else:
-        count, _ = Shoe.objects.filter(id=id).delete()
+        count, _ = Shoe.objects.filter(id=pk).delete()
         return JsonResponse({"deleted": count > 0})
