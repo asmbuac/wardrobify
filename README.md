@@ -2,8 +2,8 @@
 
 Team:
 
-* Sinlin - Hats
-* Shayne - Shoes
+* Sinlin Yeo - Hats
+* Shayne Buac - Shoes
 
 ## Design
 <img src="/Microservice-Two-Shot-Diagram.png">
