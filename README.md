@@ -39,8 +39,8 @@ Poll is an application that contains a poller that gets `Bin` data from the ward
 |   GET  |    `/api/shoes/`    |    List all shoes     | `api_shoes` |
 | GET | `/api/bins/<int:bin_vo_id>/shoes/` | List shoes in one bin | `api_shoes` | Use in the back-end to double check which shoes were added to which bin |
 |    POST    |   `/api/shoes/`     |    Create a new shoe    | `api_shoes` |
-| GET | `/api/shoes/<int:id>/` | Show shoe details | `api_shoe` |
-| DELETE | `/api/shoes/<int:id>/` | Delete a shoe | `api_shoe` |
+| GET | `/api/shoes/<int:pk>/` | Show shoe details | `api_shoe` |
+| DELETE | `/api/shoes/<int:pk>/` | Delete a shoe | `api_shoe` |
 
 ##### Poller:
 - One poller to poll the Wardrobe API for `Bin` resources every 60 seconds
@@ -89,17 +89,16 @@ TLDR; the design works the same way as `Shoes`, with the following changes
 
 | Method | URL | What it does | View function | Notes |
 | ------ | ------ | ------ | ------ | ------ |
-|   GET  |    `/api/hat/`    |    List all hat     | `api_hat` |
-| GET | `/api/locations/<int:bin_vo_id>/hat/` | List hat in one location | `api_hat` | Use in the back-end to double check which hat were added to which location |
-|    POST    |   `/api/hat/`     |    Create a new hat    | `api_hat` |
-| GET | `/api/hat/<int:id>/` | Show hat details | `api_shoe` |
-| DELETE | `/api/hat/<int:id>/` | Delete a hat | `api_shoe` |
+|   GET  |    `/api/hats/`    |    List all hat     | `api_hats` |
+|    POST    |   `/api/hats/`     |    Create a new hat    | `api_hats` |
+| GET | `/api/hats/<int:pk>/` | Show hat details | `api_hat` |
+| DELETE | `/api/hats/<int:pk>/` | Delete a hat | `api_hat` |
 
 ##### Poller:
 - One poller to poll the Wardrobe API for `Location` resources every 10 seconds
 - Created a `get_locations` function that:
-  - Requests for and gets bin data from Wardrobe microservice and create or update a `LocationVO` object
+  - Requests for and gets location data from Wardrobe microservice and create or update a `LocationVO` object
   - Grabs the response's content and translates it from JSON to Python
-  - Iterates through the bins and updates or creates a `LocationVO` object from the Location data
+  - Iterates through the locations and updates or creates a `LocationVO` object from the Location data
 
   ---END---
