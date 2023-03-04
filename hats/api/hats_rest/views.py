@@ -9,11 +9,10 @@ from common.json import ModelEncoder
 from .models import Hat, LocationV0
 
 
-
 class LocationV0Encoder(ModelEncoder):
     model = LocationV0
     properties = [
-        "id",
+        "import_href",
         "closet_name",
         "section_number",
         "shelf_number",
@@ -23,13 +22,15 @@ class LocationV0Encoder(ModelEncoder):
 class HatEncoder(ModelEncoder):
     model = Hat
     properties = [
+        "id",
         "fabric",
         "style_name",
         "color",
         "picture_url",
         "location",
     ]
-    encoders={"location": LocationV0Encoder()}
+    encoders = {"location": LocationV0Encoder()}
+
 
 @require_http_methods(["GET", "POST"])
 def api_hats(request):
@@ -73,13 +74,13 @@ def api_hats(request):
         content = json.loads(request.body)
 
         try:
-            location_href = content['location']
-            location =LocationV0.objects.get(import_href=location_href)
+            location_href = content["location"]
+            location = LocationV0.objects.get(import_href=location_href)
             content["location"] = location
         except LocationV0.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid location id. It does not exist!"},
-                status = 400,
+                status=400,
             )
 
         hats = Hat.objects.create(**content)
@@ -121,11 +122,7 @@ def api_hat(request, pk):
     if request.method == "GET":
         try:
             location = Hat.objects.get(id=pk)
-            return JsonResponse(
-                location,
-                encoder=HatEncoder,
-                safe=False
-            )
+            return JsonResponse(location, encoder=HatEncoder, safe=False)
         except Hat.DoesNotExist:
             response = JsonResponse({"message": "Does not exist"})
             response.status_code = 404
@@ -141,7 +138,7 @@ def api_hat(request, pk):
             )
         except Hat.DoesNotExist:
             return JsonResponse({"message": "Does not exist"})
-    else: # PUT
+    else:  # PUT
         try:
             content = json.loads(request.body)
             location = Hat.objects.get(id=pk)

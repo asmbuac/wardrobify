@@ -8,19 +8,21 @@ function HatColumn(props) {
         <div className="col">
             {props.list.map(hat => {
                 return (
-                    <div key={hat.href} className="card mb-3 shadow">
+                    <div key={hat.id} className="card mb-3 shadow">
                         <img src={hat.picture_url} className="card-img-top" />
                         <div className="card-body">
-                            <h5 className="card-title">{hat.manufacturer}</h5>
+                            <h5 className="card-title">{hat.style_name}</h5>
                             <h6 className="card-subtitle mb-2 text-muted">
-                                {hat.color} {hat.model_name}
+                                {hat.fabric} {hat.color}
                             </h6>
                             <p className="card-text text-center">
-                                <DeleteButton href={hat.href} />
+                                <DeleteButton url={`8090/api/hats/${hat.id}/`} />
                             </p>
                         </div>
                         <div className="card-footer">
-                            {hat.bin.closet_name} Bin #{hat.bin.bin_number}
+                            <small className="text-muted">
+                                {hat.location.closet_name} Closet Section #{hat.location.section_number} Shelf #{hat.location.shelf_number}
+                            </small>
                         </div>
                     </div>
                 );
@@ -41,7 +43,7 @@ export default function HatsList() {
             if (response.ok) {
                 const data = await response.json();
                 const requests = data.hats.map(hat => {
-                    return fetch(`http://localhost:8090${hat.href}`);
+                    return fetch(`http://localhost:8090/api/hats/${hat.id}`);
                 })
 
                 const responses = await Promise.all(requests);
@@ -60,7 +62,6 @@ export default function HatsList() {
                         console.error(hatResponse);
                     }
                 }
-                console.log(columns)
                 setHatColumns(columns)
             }
         } catch (e) {
@@ -74,7 +75,7 @@ export default function HatsList() {
 
     return (
         <>
-            <div className="px-4 py-5 my-5 mt-0 text-center bg-info">
+            <div className="px-4 py-5 my-5 mt-0 text-center bg-info-subtle">
                 <h1 className="display-5 fw-bold mb-4">Hats</h1>
                 <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     <Link to="/hats/new" className="btn btn-light btn px-4 gap-3">Add a new hat</Link>

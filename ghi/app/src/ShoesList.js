@@ -8,7 +8,7 @@ function ShoeColumn(props) {
     <div className="col">
       {props.list.map(shoe => {
         return (
-          <div key={shoe.href} className="card mb-3 shadow">
+          <div key={shoe.id} className="card mb-3 shadow">
             <img src={shoe.picture_url} className="card-img-top" />
             <div className="card-body">
               <h5 className="card-title">{shoe.manufacturer}</h5>
@@ -16,7 +16,7 @@ function ShoeColumn(props) {
                 {shoe.color} {shoe.model_name}
               </h6>
               <p className="card-text text-center">
-                <DeleteButton href={shoe.href} />
+                <DeleteButton url={`8080/api/shoes/${shoe.id}/`} />
               </p>
             </div>
             <div className="card-footer">
@@ -60,7 +60,6 @@ export default function ShoesList() {
             console.error(shoeResponse);
           }
         }
-        console.log(columns)
         setShoeColumns(columns)
       }
     } catch (e) {
@@ -74,7 +73,7 @@ export default function ShoesList() {
 
   return (
     <>
-      <div className="px-4 py-5 my-5 mt-0 text-center bg-info">
+      <div className="px-4 py-5 my-5 mt-0 text-center bg-info-subtle">
         <h1 className="display-5 fw-bold mb-4">Shoes</h1>
         <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
           <Link to="/shoes/new" className="btn btn-light btn px-4 gap-3">Add a new shoe</Link>

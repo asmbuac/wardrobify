@@ -1,11 +1,10 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom';
 
 export default function DeleteButton(props) {
   return (
     <button
       onClick={async (event) => {
-        const url = `http://localhost:8080${props.href}`;
+        const url = `http://localhost:${props.url}`;
         const fetchConfig = {
           method: 'delete',
           headers: {

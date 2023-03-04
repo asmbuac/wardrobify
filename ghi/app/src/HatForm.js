@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 export default function HatForm() {
     const [locations, setLocations] = useState([]);
@@ -29,7 +29,7 @@ export default function HatForm() {
     }
 
     const fetchData = async () => {
-        const url = "http://localhost:8090/api/locations/";
+        const url = "http://localhost:8100/api/locations/";
 
         try {
             const response = await fetch(url)
@@ -108,7 +108,7 @@ export default function HatForm() {
                                 {locations.map(location => {
                                     return (
                                         <option key={location.href} value={location.href}>
-                                            {`${location.closet_name} Location #${location.location_number}`}
+                                            {`${location.closet_name} Closet Section #${location.section_number} Shelf #${location.shelf_number}`}
                                         </option>
                                     );
                                 })}
