@@ -12,10 +12,10 @@ from .models import Hat, LocationV0
 class LocationV0Encoder(ModelEncoder):
     model = LocationV0
     properties = [
-        "import_href",
         "closet_name",
         "section_number",
         "shelf_number",
+        "import_href",
     ]
 
 

@@ -93,3 +93,22 @@ def api_shoe(request, pk):
     else:
         count, _ = Shoe.objects.filter(id=pk).delete()
         return JsonResponse({"deleted": count > 0})
+
+
+@require_http_methods(["GET"])
+def api_binsVO(request):
+    bins = BinVO.objects.all()
+    print(bins)
+    return JsonResponse(
+        {"bins": bins},
+        encoder=BinVODetailEncoder,
+    )
+
+
+@require_http_methods(["GET"])
+def api_show_bin(request, pk):
+    bin = BinVO.objects.get(id=pk)
+    return JsonResponse(
+        {"bin": bin},
+        encoder=BinVODetailEncoder,
+    )

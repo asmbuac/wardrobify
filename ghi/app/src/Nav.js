@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 function Nav() {
   return (
@@ -15,22 +15,26 @@ function Nav() {
             </li>
             <li className="nav-item dropdown">
               <NavLink className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Shoes
+                <img src="https://img.icons8.com/arcade/25/null/trainers.png" /> Shoes
               </NavLink>
               <ul className="dropdown-menu">
                 <li>
-                  <NavLink to="/shoes" isActive={false} className={({ isActive }) =>
+                  {/*
+                  // WORK AROUND
+                  <NavLink to="/shoes" className={({ isActive }) =>
                     isActive ? "dropdown-item" : "dropdown-item"
                   }>List</NavLink>
                   <NavLink to="/shoes/new" className={({ isActive }) =>
                     isActive ? "dropdown-item" : "dropdown-item"
-                  }>Create</NavLink>
+                  }>Create</NavLink> */}
+                  <Link to="/shoes" className="dropdown-item">List</Link>
+                  <Link to="/shoes/new" className="dropdown-item">Create</Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item dropdown">
               <NavLink className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Hats
+                <img src="https://img.icons8.com/arcade/25/null/santas-hat.png" /> Hats
               </NavLink>
               <ul className="dropdown-menu">
                 <li>

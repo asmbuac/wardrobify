@@ -11,6 +11,9 @@ class BinVO(models.Model):
     def __str__(self):
         return f"{self.closet_name} - {self.bin_number}/{self.bin_size}"
 
+    def get_api_url(self):
+        return reverse("api_binvo", kwargs={"pk": self.pk})
+
     class Meta:
         ordering = ("closet_name", "bin_number", "bin_size")
 
